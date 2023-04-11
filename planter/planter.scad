@@ -6,6 +6,7 @@ module member(dx, dy, dz) {
 	minkowski() {
 		cube([dx-r, dy-r, dz-r]);
 		sphere(r);
+		echo(max(dx, dy, dz));
 	};
 };
 
