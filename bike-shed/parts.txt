@@ -1,0 +1,20 @@
+hinge x2
+hasp
+1.5" deck screws x~30
+3" deck screws x8
+silicone
+wood seal
+
+4x8 OSB (4):
+  roof: 3'0" x 6'6.24957"
+  back: 2'6.875" x 3'4.5"
+  left & right wall: 6'0" x 4'0" x 2
+  door: 2'3" x 3'10.5"
+  floor: 2'6" x 6'0"
+
+2x4 (3):
+  back supports: 3'4.5" x 2
+  front supports: 3'10.5" x 2
+  floor supports: 2'6" x 3
+  door hings screw bed: scrap
+  door hasp screw bed: scrap

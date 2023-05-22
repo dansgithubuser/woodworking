@@ -13,6 +13,16 @@ roof_angle = atan(roof_rise / inner_depth);
 member_width = 1.5/12; // ft
 member_depth = 3.5/12; // ft
 
+module member(size, desc) {
+  echo(desc);
+  for (i = [0:2]) {
+    feet = floor(size[i]);
+    inches = (size[i] - feet) * 12;
+    echo(str("\t", feet, "'", inches, "\","));
+  }
+  cube(size);
+}
+
 // roof
 module roof_transform() {
   translate([0, 0, back_inner_height]) {
@@ -34,72 +44,72 @@ module roof_truncate() {
 };
 
 roof_transform() {
-  cube([roof_width, roof_depth, wall_thickness]);
+  member([roof_width, roof_depth, wall_thickness], "roof");
 };
 
 // back
-translate([-wall_thickness, -wall_thickness, 0]) {
-  cube([inner_width + 2 * wall_thickness, wall_thickness, back_inner_height]);
+translate([-wall_thickness, -wall_thickness, member_width]) {
+  member([inner_width + 2 * wall_thickness, wall_thickness, back_inner_height - member_width], "back");
 };
 
 // left & right wall
 roof_truncate() {
   union() {
-    translate([inner_width, 0, 0]) { // left
-      cube([wall_thickness, inner_depth, front_inner_height]);
+    translate([inner_width, 0, member_width]) { // left
+      member([wall_thickness, inner_depth, front_inner_height], "left wall");
     };
-    translate([-wall_thickness, 0, 0]) { // right
-      cube([wall_thickness, inner_depth, front_inner_height]);
+    translate([-wall_thickness, 0, member_width]) { // right
+      member([wall_thickness, inner_depth, front_inner_height], "right wall");
     };
   };
 };
 
 // supports
-module support() {
+module support(height, desc) {
   translate([0, 0, member_width]) {
-    cube([member_width, member_depth, front_inner_height+1]);
+    member([member_width, member_depth, height], desc);
   };
 };
 
-module support_pair() {
-  union() {
-    translate([0, 0, 0]) {
-      support();
-    };
-    translate([inner_width - member_width, 0, 0]) {
-      support();
-    };
+module support_pair(height, desc) {
+  translate([0, 0, 0]) {
+    support(height - member_width, str(desc, " right"));
+  };
+  translate([inner_width - member_width, 0, 0]) {
+    support(height - member_width, str(desc, " left"));
   };
 };
 
-roof_truncate() {
-  union() {
-    translate([0, 0, 0]) {
-      support_pair();
-    };
-    translate([0, inner_depth - member_depth, 0]) {
-      support_pair();
-    };
-  };
+translate([0, 0, 0]) {
+  support_pair(back_inner_height, "support - back");
+};
+translate([0, inner_depth - member_depth, 0]) {
+  support_pair(front_inner_height, "support - front");
 };
 
 // door
 translate([member_width, inner_depth - wall_thickness, member_width]) {
   rotate([0, 0, 45]) {
-    cube([inner_width - 2 * member_width, wall_thickness, front_inner_height - member_width]);
+    member([inner_width - 2 * member_width, wall_thickness, front_inner_height - member_width], "door");
+    translate([0, -member_width, 0.25]) {
+      member([member_depth, member_width, 3.25], "door hinge screw bed");
+    };
+    translate([inner_width - 2 * member_width - member_depth, -member_width, 1.5]) {
+      member([member_depth, member_width, 1], "door hasp screw bed");
+    };
   };
 };
 
 // floor
 translate([0, 0, member_width]) {
-  cube([inner_width, inner_depth, wall_thickness]);
+  member([inner_width, inner_depth, wall_thickness], "floor");
 };
 translate([0, 0, 0]) {
-  cube([inner_width, member_depth, member_width]);
+  member([inner_width, member_depth, member_width], "floor support");
 };
 translate([0, (inner_depth - member_depth) / 2, 0]) {
-  cube([inner_width, member_depth, member_width]);
+  member([inner_width, member_depth, member_width], "floor support");
 };
 translate([0, inner_depth - member_depth, 0]) {
-  cube([inner_width, member_depth, member_width]);
+  member([inner_width, member_depth, member_width], "floor support");
 };
