@@ -10,6 +10,8 @@ roof_width = inner_width + 2 * roof_overhang;
 roof_depth = sqrt(pow(inner_depth, 2) + pow(roof_rise, 2)) + 2 * roof_overhang;
 roof_angle = atan(roof_rise / inner_depth);
 
+echo(str("roof angle: ", roof_angle, " deg"));
+
 member_width = 1.5/12; // ft
 member_depth = 3.5/12; // ft
 

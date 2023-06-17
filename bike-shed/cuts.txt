@@ -1,0 +1,17 @@
+roof angle: 4.76364 deg
+
+floor                 2'6, 6'0
+support - back right  3'4.5
+support - back left   3'4.5
+support - front right 3'10.5
+support - front left  3'10.5
+back                  2'6.875, 3'4.5
+left wall             6'0, 4'0
+right wall            6'0, 4'0
+roof                  3'0, 6'6.24957
+
+floor support         2'6 x 3
+
+door                  2'3, 3'10.5
+door hinge screw bed  3'3,
+door hasp screw bed   1'0,
